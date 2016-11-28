@@ -31,3 +31,20 @@ Chess Computer Vision project for OSU CSE 5524
 ### How will you evaluate:
 - Demo of playing a match from arbitrary board state with the move validity checking
 - Images of motion tracked game
+
+## Run
+Simply run `python2 test.py <env>` with `<env>` being your enviroment.
+- `<env>` == "mac"
+- `<env>` == "win64"
+
+## Install
+*Note*: If on **Windows** use *32bit* python2.7 as it might releviate some issues and replace `pip install` below with `python2 -m pip install` :/
+
+1. Install `python2.7` from [Python.org](https://www.python.org/).
+2. Upgrade pip: `pip install --upgrade pip`.
+3. Install python packages: `pip install -r requirements.txt`
+  - If having trouble with Windows install from [these Windows binaries](http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy)
+4. Install opencv3
+  - Windows: [install instructions](http://docs.opencv.org/3.1.0/d5/de5/tutorial_py_setup_in_windows.html)
+  - Mac: [install instructions](http://www.mobileway.net/2015/02/14/install-opencv-for-python-on-mac-os-x/)
+

@@ -33,9 +33,7 @@ Chess Computer Vision project for OSU CSE 5524
 - Images of motion tracked game
 
 ## Run
-Simply run `python2 test.py <env>` with `<env>` being your enviroment.
-- `<env>` == "mac"
-- `<env>` == "win64"
+Simply run `python2 test.py` (`test.py` is found in `src/`)
 
 ## Install
 *Note*: If on **Windows** use *32bit* python2.7 as it might releviate some issues and replace `pip install` below with `python2 -m pip install` :/

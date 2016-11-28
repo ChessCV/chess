@@ -1,5 +1,7 @@
 function [ FEN ] = pieceClassification( board ) %#ok<*NODEF>
 
+FEN = cell(8);
+FEN(:, :) = {'.'};
 board = double(board); % Convert to double if not done already.
 
 %% Load/setup pawn data.
@@ -26,11 +28,13 @@ bPawns = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 0.5^2, ...
     (board(:, :, 2) - bGreenMean).^2 / bGreenStd^2 < 0.5^2), ...
     (board(:, :, 3) - bBlueMean).^2 / bBlueStd^2 < 0.5^2);
 
-wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.5^2, ...
+wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.3^2, ...
     (board(:, :, 2) - wGreenMean).^2 / wGreenStd^2 < 0.5^2), ...
     (board(:, :, 3) - wBlueMean).^2 / wBlueStd^2 < 0.5^2);
 
 pawnsIm = or(bPawns, wPawns);
+
+[pawnsIm, centroids] = cleanupPieceImage(pawnsIm, 4, 3);
 
 %% Load/setup knights data.
 load('data/bKnight.mat')
@@ -62,7 +66,7 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 knightsIm = or(bKnights, wKnights);
 
-[knightsIm, centroids] = cleanupPieceImage(knightsIm, 50);
+[knightsIm, centroids] = cleanupPieceImage(knightsIm, 50, 1);
 
 %% Load/setup bishop data.
 load('data/bBishop.mat')
@@ -94,6 +98,8 @@ wBishops = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 bishopsIm = or(bBishops, wBishops);
 
+[bishopsIm, centroids] = cleanupPieceImage(bishopsIm, 50, 3);
+
 %% Load/setup king data.
 load('data/king.mat')
 
@@ -111,7 +117,7 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 
 kingsIm = kings;
 
-[kingsIm, centroids] = cleanupPieceImage(kingsIm, 100);
+[kingsIm, centroids] = cleanupPieceImage(kingsIm, 100, 1);
 
 %% Load/setup queen data.
 load('data/queen.mat')
@@ -147,6 +153,6 @@ rooks = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 3^2, ...
 
 rooksIm = rooks;
 
-[rooksIm, centroids] = cleanupPieceImage(rooksIm, 100);
+[rooksIm, centroids] = cleanupPieceImage(rooksIm, 100, 1);
 
 end

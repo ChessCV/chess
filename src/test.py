@@ -15,14 +15,16 @@ corner_classifier = pickle.load (open('corner_data/corner_classifier.clf', 'r'))
 #corner_classifier = pickle.load (open(corner_classifier_filename, 'r'))	#more data
 board = Board(corner_classifier=corner_classifier)
 
-empty_filename = '../data/toy_images/chessboard.png'
+empty_filename = '../data/toy_images/empty_board.jpg'
+#empty_filename = '../data/toy_images/ChessBoard.png'
 frame_empty_raw = cv2.imread(empty_filename)
 frame_empty = frame_empty_raw
 board.initialize_board_plane (frame_empty)
-
+# TODO: search for most optimal BIH by trying many different theta buckets for vertical hough lines. [-40,40] (default) decrement by 5 ea. trial
+# TODO: BIH with highest score among all other trials is the best
 frame_ic = board.draw_squares(frame_empty)
 board_dump = board.dump_squares_image(frame_empty_raw.shape[0], frame_empty_raw.shape[1])
-#cv2.imwrite ('../data/toy_images/test.jpg', frame_ic)
+cv2.imwrite ('../data/toy_images/best_BIH.png', frame_ic)
 cv2.imshow ('BIH MARKED', frame_ic)
 key = 0
 while not key in [27, ord('Q'), ord('q')]:

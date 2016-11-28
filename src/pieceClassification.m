@@ -2,7 +2,7 @@ function [ FEN ] = pieceClassification( board )
 
 board = double(board); % Convert to double if not done already.
 
-%% Load/setup pawn data
+%% Load/setup pawn data.
 load('data/bPawn.mat')
 load('data/wPawn.mat')
 
@@ -32,7 +32,7 @@ wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 pawnsIm = or(bPawns, wPawns);
 
-%% Load/setup knights data
+%% Load/setup knights data.
 load('data/bKnight.mat')
 load('data/wKnight.mat')
 
@@ -62,7 +62,7 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 knightsIm = or(bKnights, wKnights);
 
-%% Load/setup bishop data
+%% Load/setup bishop data.
 load('data/bBishop.mat')
 load('data/wBishop.mat')
 
@@ -92,7 +92,7 @@ wBishops = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 bishopsIm = or(bBishops, wBishops);
 
-%% Load/setup king data
+%% Load/setup king data.
 load('data/king.mat')
 
 bRedStd = std(king(:, 1));
@@ -109,7 +109,7 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 
 kingsIm = kings;
 
-%% Load/setup queen data
+%% Load/setup queen data.
 load('data/queen.mat')
 
 bRedStd = std(queen(:, 1));
@@ -126,7 +126,7 @@ queens = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 4^2, ...
 
 queensIm = queens;
 
-%% Load/setup rook data
+%% Load/setup rook data.
 load('data/rook.mat')
 
 bRedStd = std(rook(:, 1));

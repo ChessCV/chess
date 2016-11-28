@@ -35,6 +35,12 @@ wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.3^2, ...
 pawnsIm = or(bPawns, wPawns);
 
 [pawnsIm, centroids] = cleanupPieceImage(pawnsIm, 4, 3);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+    else     % This is true iff the piece is 'black'.
+    end
+end
 
 %% Load/setup knights data.
 load('data/bKnight.mat')
@@ -67,6 +73,12 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 knightsIm = or(bKnights, wKnights);
 
 [knightsIm, centroids] = cleanupPieceImage(knightsIm, 50, 1);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+    else     % This is true iff the piece is 'black'.
+    end
+end
 
 %% Load/setup bishop data.
 load('data/bBishop.mat')
@@ -99,6 +111,12 @@ wBishops = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 bishopsIm = or(bBishops, wBishops);
 
 [bishopsIm, centroids] = cleanupPieceImage(bishopsIm, 50, 3);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+    else     % This is true iff the piece is 'black'.
+    end
+end
 
 %% Load/setup king data.
 load('data/king.mat')
@@ -118,6 +136,12 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 kingsIm = kings;
 
 [kingsIm, centroids] = cleanupPieceImage(kingsIm, 100, 1);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+    else     % This is true iff the piece is 'black'.
+    end
+end
 
 %% Load/setup queen data.
 load('data/queen.mat')
@@ -135,6 +159,16 @@ queens = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 4^2, ...
     (board(:, :, 3) - bBlueMean).^2 / bBlueStd^2 < 4^2);
 
 queensIm = queens;
+
+[queensIm, centroids] = cleanupPieceImage(queensIm, 50, 2);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+        %fprintf('White: %f | %f\n', centroids(i, 2), centroids(i, 1));
+    else     % This is true iff the piece is 'black'.
+        %fprintf('Black: %f | %f\n', centroids(i, 2), centroids(i, 1));
+    end
+end
 
 %% Load/setup rook data.
 load('data/rook.mat')
@@ -154,5 +188,11 @@ rooks = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 3^2, ...
 rooksIm = rooks;
 
 [rooksIm, centroids] = cleanupPieceImage(rooksIm, 100, 1);
+for i=1:size(centroids, 1)
+    color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
+    if color % This is true iff the piece is 'white'.
+    else     % This is true iff the piece is 'black'.
+    end
+end
 
 end

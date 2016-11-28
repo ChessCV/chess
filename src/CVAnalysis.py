@@ -396,6 +396,7 @@ def find_board_image_homography (image, corner_classifier):
 	corners_img = draw_lines_rho_theta (corners_img, vert_lines)
 	cv2.namedWindow ('PREDICTED CORNERS')
 	cv2.imshow ('corners', corners_img)
+	cv2.imwrite ('../data/toy_images/hough.png', corners_img)
 	key = 0
 	while key != ord('q'):
 		key = cv2.waitKey (30)

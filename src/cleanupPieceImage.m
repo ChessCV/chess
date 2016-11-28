@@ -8,7 +8,7 @@ imageProps = cell2mat(struct2cell(regionprops(L, 'Area', 'Centroid'))');
 rowId = meshgrid(1:size(imageProps, 1), 1)';
 imageProps = horzcat(rowId, imageProps);
 imageProps = flipud(sortrows(imageProps, 2));
-% Data is now stored as [num, size, centroid(Row), centroid(Col)]
+% Data is now stored as [num, size, centroid(Col), centroid(Row)]
 imageProps = imageProps(imageProps(:, 2) >= threshold, :);
 for i=1:size(imageProps, 1)
     outIm = or(outIm, L == imageProps(i, 1));

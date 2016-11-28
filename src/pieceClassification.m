@@ -1,4 +1,4 @@
-function [ FEN ] = pieceClassification( board ) %#ok<*NODEF>
+function [ FEN ] = pieceClassification( board, grayBoard ) %#ok<*NODEF>
 
 FEN = cell(8);
 FEN(:, :) = {'.'};
@@ -36,11 +36,13 @@ wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.3^2, ...
 
 pawnsIm = or(bPawns, wPawns);
 
-[pawnsIm, centroids] = cleanupPieceImage(pawnsIm, 4, 3);
+[~, centroids] = cleanupPieceImage(pawnsIm, 4, 3);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'P');
     else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'p');
     end
 end
 
@@ -74,11 +76,13 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 knightsIm = or(bKnights, wKnights);
 
-[knightsIm, centroids] = cleanupPieceImage(knightsIm, 50, 1);
+[~, centroids] = cleanupPieceImage(knightsIm, 50, 1);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'N');
     else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'n');
     end
 end
 
@@ -112,11 +116,13 @@ wBishops = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 
 bishopsIm = or(bBishops, wBishops);
 
-[bishopsIm, centroids] = cleanupPieceImage(bishopsIm, 50, 3);
+[~, centroids] = cleanupPieceImage(bishopsIm, 50, 3);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'B');
     else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'b');
     end
 end
 
@@ -137,11 +143,13 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 
 kingsIm = kings;
 
-[kingsIm, centroids] = cleanupPieceImage(kingsIm, 100, 1);
+[~, centroids] = cleanupPieceImage(kingsIm, 100, 1);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'K');
     else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'k');
     end
 end
 
@@ -162,13 +170,13 @@ queens = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 4^2, ...
 
 queensIm = queens;
 
-[queensIm, centroids] = cleanupPieceImage(queensIm, 50, 2);
+[~, centroids] = cleanupPieceImage(queensIm, 50, 2);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        %fprintf('White: %f | %f\n', centroids(i, 2), centroids(i, 1));
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'Q');
     else     % This is true iff the piece is 'black'.
-        %fprintf('Black: %f | %f\n', centroids(i, 2), centroids(i, 1));
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'q');
     end
 end
 
@@ -189,11 +197,13 @@ rooks = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 3^2, ...
 
 rooksIm = rooks;
 
-[rooksIm, centroids] = cleanupPieceImage(rooksIm, 100, 1);
+[~, centroids] = cleanupPieceImage(rooksIm, 100, 1);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'R');
     else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'r');
     end
 end
 

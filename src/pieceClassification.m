@@ -22,13 +22,13 @@ wRedMean = mean(wPawn(:, 1));
 wGreenMean = mean(wPawn(:, 2));
 wBlueMean = mean(wPawn(:, 3));
 
-bPawns = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
-    (board(:, :, 2) - bGreenMean).^2 / bGreenStd^2 < 1^2), ...
-    (board(:, :, 3) - bBlueMean).^2 / bBlueStd^2 < 1^2);
+bPawns = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 0.5^2, ...
+    (board(:, :, 2) - bGreenMean).^2 / bGreenStd^2 < 0.5^2), ...
+    (board(:, :, 3) - bBlueMean).^2 / bBlueStd^2 < 0.5^2);
 
-wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
-    (board(:, :, 2) - wGreenMean).^2 / wGreenStd^2 < 1^2), ...
-    (board(:, :, 3) - wBlueMean).^2 / wBlueStd^2 < 1^2);
+wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.5^2, ...
+    (board(:, :, 2) - wGreenMean).^2 / wGreenStd^2 < 0.5^2), ...
+    (board(:, :, 3) - wBlueMean).^2 / wBlueStd^2 < 0.5^2);
 
 pawnsIm = or(bPawns, wPawns);
 
@@ -61,6 +61,8 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
     (board(:, :, 3) - wBlueMean).^2 / wBlueStd^2 < 1^2);
 
 knightsIm = or(bKnights, wKnights);
+
+[knightsIm, centroids] = cleanupPieceImage(knightsIm, 50);
 
 %% Load/setup bishop data.
 load('data/bBishop.mat')
@@ -109,6 +111,8 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 
 kingsIm = kings;
 
+[kingsIm, centroids] = cleanupPieceImage(kingsIm, 100);
+
 %% Load/setup queen data.
 load('data/queen.mat')
 
@@ -142,5 +146,7 @@ rooks = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 3^2, ...
     (board(:, :, 3) - bBlueMean).^2 / bBlueStd^2 < 3^2);
 
 rooksIm = rooks;
+
+[rooksIm, centroids] = cleanupPieceImage(rooksIm, 100);
 
 end

@@ -1,4 +1,4 @@
-function [ FEN ] = pieceClassification( board )
+function [ FEN ] = pieceClassification( board ) %#ok<*NODEF>
 
 board = double(board); % Convert to double if not done already.
 

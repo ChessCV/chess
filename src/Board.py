@@ -417,6 +417,20 @@ class Board:
 			image = square.draw_surface (image)
 		return image
 
+	def dump_squares_image (self, width, height):
+		"""
+			PUBLIC: dump_squares_image
+			--------------------------
+			dumps digitized version of the squares onto a black image that is
+			the size of the empty board image
+		"""
+		image = np.zeros ((width, height), dtype=np.uint8)
+		count = 1
+		for square in self.iter_squares():
+			image = square.dump(image, count)
+			count += 1
+		return image
+
 
 	def draw_vertices (self, image):
 		"""

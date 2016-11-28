@@ -9,6 +9,9 @@ from numpy.linalg import inv, pinv, svd
 from sklearn.cluster import KMeans
 from util import *
 
+# Mac: "/Applications/MATLAB_R2016a.app/bin/matlab"
+MATLAB_PATH = ""
+
 ####################################################################################################
 ##############################[ --- IMAGE DIFFERENCE --- ]##########################################
 ####################################################################################################
@@ -207,6 +210,7 @@ def get_chessboard_lines (image, corners):
 		(horz_lines, horz_indices, vert_lines, vert_indices), represented as (a, b, c) pairs,
 		and indices up to a shift
 	"""
+	global MATLAB_PATH
 	#=====[ Step 1: make an image for Matlab scripts ]=====
 	corners_img = np.zeros (image.shape[:2], dtype=np.uint8)
 	for corner in corners:
@@ -217,7 +221,13 @@ def get_chessboard_lines (image, corners):
 
 	#=====[ Step 3: run matlab script	]=====
 	os.chdir ('./autofind_lines')
-	call(["/Applications/MATLAB_R2016a.app/bin/matlab", "-nojvm", "-nodisplay", "-nosplash", "-r ", "autofind_lines"])
+
+	if os.name == "posix":
+		path = "/Applications/MATLAB_R2016a.app/bin/matlab"
+	elif os.name == "nt":
+		path = "C:/Program Files/MATLAB/R2016a/bin/win64/matlab.exe"
+
+	call([path, "-nojvm", "-nodisplay", "-nosplash", "-r ", "autofind_lines"])
 	os.chdir ('../')
 
 	#=====[ Step 4: get the lines back	]=====

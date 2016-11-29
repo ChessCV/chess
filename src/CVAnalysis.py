@@ -225,7 +225,7 @@ def get_chessboard_lines (image, corners):
 	if os.name == "posix":
 		path = "/Applications/MATLAB_R2016a.app/bin/matlab"
 	elif os.name == "nt":
-		path = "C:/Program Files/MATLAB/R2016a/bin/win64/matlab.exe"
+		path = "matlab"
 
 	call([path, "-nojvm", "-nodisplay", "-nosplash", "-r ", "autofind_lines"])
 	os.chdir ('../')

@@ -217,5 +217,6 @@ end
 %% Swap centroid columns.
 centroidList = centroidList(:, [2, 1]);
 csvwrite('centroids/centroids.csv', centroidList);
+FEN = FENString(FEN);
 
 end

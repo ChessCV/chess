@@ -9,4 +9,3 @@ axis('image');
 axis ij;
 plot(centroids(:, 2), centroids(:, 1), '+', 'Color', 'b');
 hold off;
-pause;

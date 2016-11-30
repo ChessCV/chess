@@ -1,5 +1,6 @@
-function [ FEN ] = pieceClassification( board, grayBoard ) %#ok<*NODEF>
+function [ FEN, centroidList ] = pieceClassification( board, grayBoard ) %#ok<*NODEF>
 
+centroidList = [];
 FEN = cell(8);
 FEN(:, :) = {'.'};
 board = double(board); % Convert to double if not done already.
@@ -37,6 +38,7 @@ wPawns = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 0.3^2, ...
 pawnsIm = or(bPawns, wPawns);
 
 [~, centroids] = cleanupPieceImage(pawnsIm, 4, 3);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -77,6 +79,7 @@ wKnights = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 knightsIm = or(bKnights, wKnights);
 
 [~, centroids] = cleanupPieceImage(knightsIm, 50, 1);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -117,6 +120,7 @@ wBishops = and(and((board(:, :, 1) - wRedMean).^2 / wRedStd^2 < 1^2, ...
 bishopsIm = or(bBishops, wBishops);
 
 [~, centroids] = cleanupPieceImage(bishopsIm, 50, 3);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -144,6 +148,7 @@ kings = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 1^2, ...
 kingsIm = kings;
 
 [~, centroids] = cleanupPieceImage(kingsIm, 100, 1);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -171,6 +176,7 @@ queens = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 4^2, ...
 queensIm = queens;
 
 [~, centroids] = cleanupPieceImage(queensIm, 50, 2);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -198,6 +204,7 @@ rooks = and(and((board(:, :, 1) - bRedMean).^2 / bRedStd^2 < 3^2, ...
 rooksIm = rooks;
 
 [~, centroids] = cleanupPieceImage(rooksIm, 100, 1);
+centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
@@ -206,5 +213,9 @@ for i=1:size(centroids, 1)
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'r');
     end
 end
+
+%% Swap centroid columns.
+centroidList = centroidList(:, [2, 1]);
+csvwrite('centroids/centroids.csv', centroidList);
 
 end

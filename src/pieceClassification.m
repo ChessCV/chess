@@ -42,9 +42,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'P');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'p');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'P');
     end
 end
 
@@ -83,9 +83,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'N');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'n');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'N');
     end
 end
 
@@ -124,9 +124,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'B');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'b');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'B');
     end
 end
 
@@ -152,9 +152,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'K');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'k');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'K');
     end
 end
 
@@ -180,9 +180,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'Q');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'q');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'Q');
     end
 end
 
@@ -208,9 +208,9 @@ centroidList = vertcat(centroids, centroidList);
 for i=1:size(centroids, 1)
     color = identifyPieceColor(board, centroids(i, 2), centroids(i, 1));
     if color % This is true iff the piece is 'white'.
-        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'R');
-    else     % This is true iff the piece is 'black'.
         FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'r');
+    else     % This is true iff the piece is 'black'.
+        FEN = updateFEN(FEN,grayBoard,centroids(i,2),centroids(i,1),'R');
     end
 end
 

@@ -45,4 +45,12 @@ Simply run `python2 test.py` (`test.py` is found in `src/`)
 4. Install opencv3
   - Windows: [install instructions](http://docs.opencv.org/3.1.0/d5/de5/tutorial_py_setup_in_windows.html)
   - Mac: [install instructions](http://www.mobileway.net/2015/02/14/install-opencv-for-python-on-mac-os-x/)
+5. Setup command line Matlab:
+  - Windows: Add the Matlab folder containing the executable to your path (Something like `C:/Program Files/MATLAB/R2016a/bin/win64/`)
+  - Mac: We hard coded Matlab to this location `/Applications/MATLAB_R2016a.app/bin/matlab` change in `CVAnalysis.py` (Although the path thing should work as well)
 
+## Troubleshooting
+### Run Matlab locally
+
+- Run the `test.m` file in the current directory `matlab -nodesktop -nosplash -r test`
+- Run some Matlab code `matlab -nodesktop -nosplash -r 'disp(5);pause;'` >> It displays the number `5` and waits for an `enter` 

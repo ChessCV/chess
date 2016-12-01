@@ -11,6 +11,7 @@ bins = 16;
 h = 15;
 nth = 4;
 current = 0;
+T = 0.1; % Threshold of "no movement"
 
 % Show the initial tracked point
 board = double(readFrame(v));
@@ -44,8 +45,16 @@ while hasFrame(v)
             w = meanshiftWeights(X_2, q_model, p_test);
 
             % Fill in the results for the r, c fields
-            results(iter + 1, 1) = sum(w .* X_2(:, 1), 1) / sum(w);
-            results(iter + 1, 2) = sum(w .* X_2(:, 2), 1) / sum(w);
+            results(iter + 1, 1) = sum(w .* X_2(:, 1), 1) / sum(w); % c
+            results(iter + 1, 2) = sum(w .* X_2(:, 2), 1) / sum(w); % r
+
+            % Did it move?
+            distMoved = pdist2(results(1, :), results(iter+1, :));
+            if (distMoved < T)
+                % Didn't move exit
+                s = iter + 1;
+                break;
+            end
         end
 
         % his print stuff

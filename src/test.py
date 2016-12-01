@@ -16,8 +16,8 @@ def main():
 	corner_classifier = pickle.load(open('corner_data/corner_classifier.clf', 'r'))
 	board = Board(corner_classifier=corner_classifier)
 
-	empty_filename = '../data/toy_images/empty_board.jpg'
-	#empty_filename = '../data/toy_images/ChessBoard.png'
+	#empty_filename = '../data/toy_images/empty_board.jpg'
+	empty_filename = '../data/toy_images/ChessBoard.png'
 
 	frame_empty_raw = cv2.imread(empty_filename)
 	frame_empty = frame_empty_raw

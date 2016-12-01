@@ -11,8 +11,8 @@ def main():
 	corner_classifier = pickle.load(open('corner_data/corner_classifier.clf', 'r'))
 	board = Board(corner_classifier=corner_classifier, search_for_theta=True)
 
-	#empty_filename = '../data/toy_images/empty_board.jpg'
-	empty_filename = '../data/toy_images/checker.jpg'
+	empty_filename = '../data/toy_images/empty_board.jpg'
+	#empty_filename = '../data/toy_images/checker.jpg'
 	#empty_filename = '../data/toy_images/ChessBoard.png'
 	#empty_filename = '../data/toy_images/chessboard4.jpg'
 

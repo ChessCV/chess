@@ -24,7 +24,7 @@ function indexed_lines = vertical_ransac (lines, image_height)
 	y = sorted_lines(3, :);
 
 	%=====[ Step 2: initialize parameters for RANSAC ]=====
-	indices = combnk(1:9, 5);
+	indices = combnk(1:9, size(lines, 2));
 	num_iters = size(indices, 1);
 	best_Rsq = -1;
 	best_p = 0;

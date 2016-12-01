@@ -1,6 +1,7 @@
 % Mean Shift track the White Back Rook
 % Name: David Soller
 % Last.#: soller.23
+figure('units','normalized','outerposition',[0 0 1 1])
 
 v = VideoReader('wbrlift.avi');
 
@@ -29,6 +30,10 @@ q_model = colorHistogram(X, bins, pcc, pcr, h);
 lfc = pcc;
 lfr = pcr;
 
+out = VideoWriter('wbrlift_lift');
+out.FrameRate = ceil(v.FrameRate/nth);
+open(out);
+
 while hasFrame(v)
     frame = double(readFrame(v));
     current = mod(current, nth);
@@ -47,7 +52,7 @@ while hasFrame(v)
             % Fill in the results for the r, c fields
             results(iter + 1, 1) = sum(w .* X_2(:, 1), 1) / sum(w); % c
             results(iter + 1, 2) = sum(w .* X_2(:, 2), 1) / sum(w); % r
-
+            
             % Did it move?
             distMoved = pdist2(results(1, :), results(iter+1, :));
             if (distMoved < T)
@@ -65,10 +70,22 @@ while hasFrame(v)
         hold on;
         plot(pcc, pcr, '+', 'Color', 'y'); % Plot starting
         plot(results(s, 1), results(s, 2), '+', 'Color', 'b'); % Plot updated
+        ax = gca;
+        ax.Units = 'pixels';
+        pos = ax.Position;
+        marg = 2;
+        rect = [-marg, -marg, pos(3)+2*marg, pos(4)+2*marg];
+        F = getframe(gca,rect);
+        ax.Units = 'normalized';
         hold off;
+        
+        writeVideo(out, F.cdata);
 
         lfc = results(s, 1);
         lfr = results(s, 2);
     end
     current = current + 1;
 end
+
+close(out);
+clear out;

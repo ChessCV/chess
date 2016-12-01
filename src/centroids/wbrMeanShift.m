@@ -13,6 +13,8 @@ h = 15;
 nth = 4;
 current = 0;
 T = 0.1; % Threshold of "no movement"
+above = 50;
+horiz = 50;
 
 % Show the initial tracked point
 board = double(readFrame(v));
@@ -49,7 +51,7 @@ while hasFrame(v)
             p_test = colorHistogram(X_2, bins, results(iter, 1), results(iter, 2), h);
             w = meanshiftWeights(X_2, q_model, p_test);
 
-            % Fill in the results for the r, c fields
+            % Fill in the results for the c, r fields
             results(iter + 1, 1) = sum(w .* X_2(:, 1), 1) / sum(w); % c
             results(iter + 1, 2) = sum(w .* X_2(:, 2), 1) / sum(w); % r
             
@@ -61,9 +63,18 @@ while hasFrame(v)
                 break;
             end
         end
+        
+        frame = frame/255;
 
+        % Detect piece lifting but make sure it's not horizontal move
+        if pdist2(pcc, results(s, 1)) < horiz
+            if pdist2(pcr, results(s,2)) > above
+                frame(:,:,1) = min(frame(:,:,1) + 0.1, 1.0);
+            end
+        end
+        
         % his print stuff
-        imagesc(frame/255);
+        imagesc(frame);
         axis('image');
         axis ij;
 

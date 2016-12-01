@@ -14,3 +14,5 @@ axis ij;
 hold on;
 plot(centroids(:, 2), centroids(:, 1), '+', 'Color', 'b');
 hold off;
+
+csvwrite('cleanedcentroids.csv', centroids);

@@ -7,7 +7,8 @@ from numpy import matrix, concatenate
 from numpy.linalg import inv, svd
 import util
 
-# Mac: "/Applications/MATLAB_R2016a.app/bin/matlab"
+# BoardDetection.py
+# Author: Tyler Zeller
 MATLAB_PATH = ""
 
 def get_harris_corners (image):

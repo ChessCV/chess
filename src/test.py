@@ -4,6 +4,8 @@ import pickle
 from Board import Board
 from util import *
 
+# test.py
+# Author: Tyler Zeller
 def preprocess_frame (frame):
 	return frame [(frame.shape[0]/6):, :]
 
@@ -20,8 +22,7 @@ def main():
 	frame_empty = frame_empty_raw
 
 	board.initialize_board_plane (frame_empty)
-	# TODO: search for most optimal BIH by trying many different theta buckets for vertical hough lines. [-40,40] (default) decrement by 5 ea. trial
-	# TODO: BIH with highest score among all other trials is the best
+
 	frame_ic = board.draw_squares(frame_empty)
 	board_dump = board.dump_squares_image(frame_empty_raw.shape[0], frame_empty_raw.shape[1])
 	cv2.imwrite ('../data/toy_images/best_BIH.png', frame_ic)

@@ -6,8 +6,9 @@ from Square import Square
 from util import iter_algebraic_notations
 
 class Board:
-	def __init__ (self, corner_classifier=None):
+	def __init__ (self, corner_classifier=None, search_for_theta=False):
 		self.corner_classifier	= corner_classifier
+		self.search_for_theta = search_for_theta
 
 	def iter_squares (self):
 		for i in range(8):
@@ -23,7 +24,7 @@ class Board:
 				self.squares [ix[0]][ix[1]] = new_square
 
 	def find_BIH (self, empty_board_frame):
-		self.BIH = BoardDetection.find_board_image_homography(empty_board_frame, self.corner_classifier)
+		self.BIH = BoardDetection.find_board_image_homography(empty_board_frame, self.corner_classifier, self.search_for_theta)
 
 	def initialize_board_plane (self, empty_board_frame):
 		self.find_BIH (empty_board_frame)

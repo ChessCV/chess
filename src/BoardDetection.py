@@ -72,7 +72,7 @@ def get_chessboard_corners (image, corner_classifier):
 	chessboard_corners = cluster_points (chessboard_corners)
 	return chessboard_corners
 
-def get_chessboard_lines (image, corners):
+def get_chessboard_lines (image, corners, search_for_theta):
 	global MATLAB_PATH
 	corners_img = np.zeros (image.shape[:2], dtype=np.uint8)
 	for corner in corners:
@@ -87,7 +87,11 @@ def get_chessboard_lines (image, corners):
 	elif os.name == 'nt':
 		path = 'C:/Program Files/MATLAB/R2016a/bin/win64/matlab.exe'
 
-	call([path, "-nojvm", "-nodisplay", "-nosplash", "-r ", "autofind_lines"])
+	if search_for_theta:
+		file_to_run = 'autofind_lines_search'
+	else:
+		file_to_run = 'autofind_lines'
+	call([path, "-nojvm", "-nodisplay", "-nosplash", "-r ", file_to_run])
 	os.chdir ('../')
 
 	horz_lines_indexed = np.genfromtxt ('./IPC/horizontal_lines.csv', delimiter=',')
@@ -143,31 +147,37 @@ def evaluate_homography (horz_indices, vert_indices, horz_points_grid, vert_poin
 	return BIH, score
 
 def get_BIH_from_lines (corners, horz_lines, horz_ix, vert_lines, vert_ix):
-	horz_points_grid = snap_points_to_lines (horz_lines, corners)
-	vert_points_grid = snap_points_to_lines (vert_lines, corners)
+	for vl_chunk, vi_chunk in zip(chunks(vert_lines, 5), chunks(vert_ix, 5)):
 
-	horz_ix = horz_ix - horz_ix[0]
-	vert_ix = vert_ix - vert_ix[0]
+		horz_points_grid = snap_points_to_lines (horz_lines, corners)
+		vert_points_grid = snap_points_to_lines (vl_chunk, corners)
 
-	horiz_indices = deepcopy(horz_ix)
-	best_BIH = np.zeros ((3,3))
-	best_score = -1
-	while (horiz_indices[-1] < 9):
+		horz_ix = horz_ix - horz_ix[0]
+		vi_chunk = vi_chunk - vi_chunk[0]
 
-		vert_indices = deepcopy (vert_ix)
-		while (vert_indices[-1] < 9):
+		horiz_indices = deepcopy(horz_ix)
+		best_BIH = np.zeros ((3,3))
+		best_score = -1
+		while (horiz_indices[-1] < 9):
 
-			BIH, score = evaluate_homography (horiz_indices, vert_indices, horz_points_grid, vert_points_grid, corners)
-			if score > best_score:
-				best_score = score
-				best_BIH = BIH
+			vert_indices = deepcopy (vi_chunk)
+			while (vert_indices[-1] < 9):
 
-			vert_indices += 1
-		horiz_indices += 1
+				BIH, score = evaluate_homography (horiz_indices, vert_indices, horz_points_grid, vert_points_grid, corners)
+				if score > best_score:
+					best_score = score
+					best_BIH = BIH
+
+				vert_indices += 1
+			horiz_indices += 1
 
 	return best_BIH
 
-def find_board_image_homography (image, corner_classifier):
+def chunks(l, n):
+    for i in xrange(0, len(l), n):
+        yield l[i:i + n]
+
+def find_board_image_homography (image, corner_classifier, search_for_theta):
 	corners = get_chessboard_corners (image, corner_classifier)
 
 	# Print corners image
@@ -179,17 +189,21 @@ def find_board_image_homography (image, corner_classifier):
 	while key != ord('q'):
 		key = cv2.waitKey (30)
 
-	horz_lines, horz_ix, vert_lines, vert_ix = get_chessboard_lines (image, corners)
+	horz_lines, horz_ix, vert_lines, vert_ix = get_chessboard_lines (image, corners, search_for_theta)
 
 	# Print hough image
-	corners_img = deepcopy(image)
-	corners_img = util.draw_lines_rho_theta (corners_img, horz_lines)
-	corners_img = util.draw_lines_rho_theta (corners_img, vert_lines)
-	cv2.imshow ('corners', corners_img)
-	cv2.imwrite ('../data/toy_images/hough.png', corners_img)
-	key = 0
-	while key != ord('q'):
-		key = cv2.waitKey (30)
+	hough = deepcopy(image)
+	hough = util.draw_lines_rho_theta (hough, horz_lines)
+
+	count = 0
+	for vl_chunk in chunks(vert_lines, 5):
+		hough_img = util.draw_lines_rho_theta (deepcopy(hough), vl_chunk)
+		cv2.imshow ('hough lines', hough_img)
+		cv2.imwrite ('../data/toy_images/hough'+str(count)+'.png', hough_img)
+		key = 0
+		while key != ord('q'):
+			key = cv2.waitKey (30)
+		count += 1
 
 	BIH = get_BIH_from_lines (corners, horz_lines, horz_ix, vert_lines, vert_ix)
 	return BIH
